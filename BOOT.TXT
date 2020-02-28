@@ -1,0 +1,46 @@
+										|
+After the system BIOS loads, and transfers CPU exection to the the boot-file
+(CDRBOOT.SYS),
+
+
+--- Technical Information --------------
+
+cdrboot.sys in memory: 
+	starting-addr: 0000:7C00, relocated to the following: 0000:700
+
+krnldr.sys in memory:
+	starting
+
+State of CPU during boot-file:
+
+	segment registers:
+	
+	- CS = 0000
+	- DS = 0000
+	- SS = 0000
+	- ES = ALIGN BY 16 -> (LENGTH OF CDRBOOT.SYS / 16)  - 2
+
+	general-purpose registers:
+	
+	- SP =
+	
+	special registers:
+	
+	- IP =
+
+State of CPU during krnldr.sys:
+
+	segment registers:
+	
+	- CS = ES + 2
+	- DS = 
+	- SS = 
+	- ES = 
+
+	general-purpose registers:
+	
+	- SP =
+	
+	special registers:
+	
+	- IP =
