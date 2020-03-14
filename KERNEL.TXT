@@ -1,0 +1,25 @@
+
+LNX Operating System Kernel Specification - Copyright (C) 2020 Joseph C.
+		All Rights Reserved.
+
+STARTUP:
+
+
+
+DRIVER-MODEL:
+
+The driver model implemented by the LNX Operating System kernel are divided
+into "levels." The following is a very, very simplified description of each
+level.
+
+	- Boot-Time 
+	- 
+	- 
+
+DRIVERS (KERNEL-MODE):
+
+
+
+DRIVERS (USER-MODE):
+
+
