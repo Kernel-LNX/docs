@@ -1,0 +1,22 @@
+
+LNX Operating System Kernel Specification - Copyright (C) 2020 Joseph C.
+		All Rights Reserved.
+
+CDROM:
+
+After the PC-BIOS finishes its POST process, the PC-BIOS then loads the startup
+file located in the CD's Boot Catalog (right now, only i386 is supported), and
+transfers CPU execution to the startup file. After this is finished, the startup
+file then performs the following tasks:
+
+	1. Alert the user of hardware configuration changes.
+	2. Test for PC-BIOS interrupt 13h extensions; otherwise,
+	   terminate startup.
+	3. Relocate startup-file to higher memory.
+	4. Loads the BOOTLDR into lower memory, upto 640 KB.
+	5. Transfer CPU execution to BOOTLDR
+
+Please review the following documents:
+
+- KRNL.TXT for microkernel, drivers, kernel-services, etc etc.
+- KLDR.TXT for BOOTLDR information
