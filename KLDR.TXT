@@ -1,5 +1,0 @@
-
-LNX Operating System Kernel Specification - Copyright (C) 2020 Joseph C.
-		All Rights Reserved.
-
-
