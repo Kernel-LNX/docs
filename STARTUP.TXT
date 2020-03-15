@@ -1,42 +1,51 @@
 
 LNX Operating System Kernel Specification - Copyright (C) 2020 Joseph C.
 		All Rights Reserved.
+The boot-manager (BOOTLDR) consists of two separate files: BOOTCDR for
+ISO-9660 only mediums, and BOOTLDR. for MBR formatted mediums. Both are
+analogous to eachother, expect for the fact that BOOTCDR understands
+ISO-9660 formatted discs, and BOOTLDR only understands MBR formatted
+disks.
 
-The boot-manager (BOOTLDR) consists of two separate files: BOOTCDR and BOOTMBR.
-Both are analogous to eachother, expect for the fact that BOOTCDR understands
-ISO-9660 formatted discs, and BOOTMBR only understands MBR formatted disks.
+LEGACY BIOS BOOT:
 
-CDROM:
+The Master Boot Record (MBR) on the formatted medium consists of one
+entire sector (512 bytes, typically). The MBR relocates itself to lower
+memory (logical-address 0060:0), determines the bootable, or "active"
+partition on the disk, loads the VBR (Volume Boot Record) from the
+active partition to logical-address 07C0:0, and transfers CPU execution.
 
-After the PC-BIOS finishes its POST process, the PC-BIOS then loads the startup
-file located in the CD's Boot Catalog (right now, only i386 is supported), and
-transfers CPU execution to the startup file. The startup file then carries out
-the following tasks:
+The VBR (Volume Boot Record) contains the actual code for loading
+BOOTLDR into memory, and is located at the start of the MBR's active
+partition. The VBR consists of 16 entire sectors, with the remaining
+unused sectors zero-filled (mainly so that the VBR can be expanded
+upon in the future, if necessary, without worry about updating the
+reserved sectors value on the boot record).
 
-	1. Test and, if necessary, enable the A20-line, and test the
-	   PC-BIOS for interrupt extensions; otherwise, terminate startup.
-	2. Relocate startup-file to higher memory.
-	3. Load the BOOTLDR into lower memory, upto 640 KB.
-	4. Transfer CPU execution to BOOTLDR
+The VBR carries out the following tasks:
 
-The A20-line is tested first to ensure that no faulty CPU is being used. If the
-CPU is faulty in any way, then running an operating system is not feasible in
-any way.
+	- Test for system BIOS extensions; if not supported,
+	  then terminate startup.
+	- Load, into memory, BOOTLDR contiguously.
+	- Transfer execution to BOOTLDR.
 
-MBR:
+For BOOTLDR on MBR formatted drives, it's located in the partition's
+root directory (not to be confused with the root directory on a FAT 16
+and 12. formatted drives).
 
-The Master Boot Record (MBR) on the formatted medium consists of one entire
-sector (512 bytes, typically). The MBR relocates itself to lower memory, loads
-the VBR (Volume Boot Record) at logical-address 07C0:0, and transfers CPU
-execution.
+ISO-9660:
 
-The VBR contains BOOTLDR (file: BOOTMBR), and is divided into two portions: the
-first is loads the portion tries and enables the A20-line. After sucessful
-initialization of the A20-line, CPU execution is transfered to the remaining
-portion of BOOTLDR.
+tHE startup file is loaded from the CD's Boot Catalog (right now, only
+i386 is supported), and transfers execution to the startup file. The
+startup file then carries out the following tasks:
 
+	- Test for system BIOS extensions; if not supported,
+	  then terminate startup.
+	- Relocate startup-file to end of conventional memory.
+	- Load, into memory, BOOTLDR to logical address 0060:0.
+	- Transfer execution to BOOTLDR.
 
 Please review the following documents:
 
-- KRNL.TXT for microkernel, drivers, kernel-services, etc etc.
-- KLDR.TXT for BOOTLDR information
+- BOOTLDR.TXT for BOOTLDR information
+- KERNEL.TXT for microkernel, drivers, kernel-services, etc etc.
